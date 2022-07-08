@@ -44,12 +44,7 @@ public class NetworkUtils {
 
     private static URL buildUrl(int sortBy, int page) {
         URL result = null;
-        String sortMethod;
-        if (sortBy == POPULARITY) {
-            sortMethod = SORT_BY_POPULARITY;
-        } else {
-            sortMethod = SORT_BY_TOP_RATED;
-        }
+        String sortMethod = sortBy == POPULARITY ? SORT_BY_POPULARITY : SORT_BY_TOP_RATED;
         Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
                 .appendQueryParameter(PARAMS_LANGUAGE, LANGUAGE_VALUE)
@@ -68,9 +63,7 @@ public class NetworkUtils {
         @Override
         protected JSONObject doInBackground(URL... urls) {
             JSONObject result = null;
-            if (urls == null || urls.length == 0) {
-                return null;
-            }
+            if (urls == null || urls.length == 0) return null;
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) urls[0].openConnection();
