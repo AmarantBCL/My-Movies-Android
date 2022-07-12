@@ -1,12 +1,17 @@
 package com.example.android.mymovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
@@ -65,6 +70,36 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setMovies(movies);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_favorites, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item_main:
+                Intent intent = MainActivity.newInstance(this);
+                startActivity(intent);
+                break;
+            case R.id.item_favorites:
+                Intent intentFavorites = FavoritesActivity.newInstance(this);
+                startActivity(intentFavorites);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent newInstance(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
     }
 
     private void switchSorting(boolean isChecked) {

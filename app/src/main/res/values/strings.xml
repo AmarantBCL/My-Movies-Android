@@ -10,4 +10,6 @@
     <string name="description_label">Описание:</string>
     <string name="add_to_favorite">Добалено в избранное</string>
     <string name="remove_from_favorite">Удалено из избранного</string>
+    <string name="favorites">Избранное</string>
+    <string name="main">Главная</string>
 </resources>
