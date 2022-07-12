@@ -59,7 +59,7 @@ public class NetworkUtils {
         return result;
     }
 
-    private static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> {
+    private static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> { // TODO via RxJava
         @Override
         protected JSONObject doInBackground(URL... urls) {
             JSONObject result = null;

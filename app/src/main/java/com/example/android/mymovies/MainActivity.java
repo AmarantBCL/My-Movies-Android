@@ -8,10 +8,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.mymovies.adapters.MovieAdapter;
+import com.example.android.mymovies.architecture.MainViewModel;
 import com.example.android.mymovies.data.Movie;
 import com.example.android.mymovies.utils.JSONUtils;
 import com.example.android.mymovies.utils.NetworkUtils;
@@ -25,12 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewPopular, textViewTopRated;
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         adapter = new MovieAdapter();
         recyclerView.setAdapter(adapter);
         switchSort.setChecked(true);
@@ -49,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnReachEndListener(() -> {
             Toast.makeText(MainActivity.this, "Конец списка", Toast.LENGTH_SHORT).show();
         });
+        LiveData<List<Movie>> moviesFromLD = viewModel.getMovies();
+        moviesFromLD.observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                adapter.setMovies(movies);
+            }
+        });
     }
 
     private void switchSorting(boolean isChecked) {
@@ -57,9 +70,18 @@ public class MainActivity extends AppCompatActivity {
         int topRatedColor = isChecked ? R.color.pink : R.color.white;
         textViewPopular.setTextColor(ContextCompat.getColor(MainActivity.this, popularColor));
         textViewTopRated.setTextColor(ContextCompat.getColor(MainActivity.this, topRatedColor));
-        JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, 1);
+        downloadData(methodSort, 1);
+    }
+
+    private void downloadData(int methodSort, int page) {
+        JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
         List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
-        adapter.setMovies(movies);
+        if (movies != null && !movies.isEmpty()) {
+            viewModel.deleteAllMovies();
+            for (Movie movie : movies) {
+                viewModel.insertMovie(movie);
+            }
+        }
     }
 
     private void initViews() {
