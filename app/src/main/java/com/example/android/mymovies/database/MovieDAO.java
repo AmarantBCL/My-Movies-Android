@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.example.android.mymovies.data.FavoriteMovie;
 import com.example.android.mymovies.data.Movie;
 
 import java.util.List;
@@ -18,8 +19,14 @@ public interface MovieDAO {
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> getAllMovies();
 
+    @Query("SELECT * FROM favorites")
+    LiveData<List<FavoriteMovie>> getAllFavoriteMovies();
+
     @Query("SELECT * FROM movies WHERE id = :id")
     Movie getMovieById(int id);
+
+    @Query("SELECT * FROM favorites WHERE id = :id")
+    FavoriteMovie getFavoriteMovieById(int id);
 
     @Query("DELETE FROM movies")
     void deleteAllMovies();
@@ -29,4 +36,10 @@ public interface MovieDAO {
 
     @Delete
     void deleteMovie(Movie movie);
+
+    @Insert
+    void insertFavoriteMovie(FavoriteMovie movie);
+
+    @Delete
+    void deleteFavoriteMovie(FavoriteMovie movie);
 }

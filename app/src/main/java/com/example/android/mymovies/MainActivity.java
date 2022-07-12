@@ -1,5 +1,6 @@
 package com.example.android.mymovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         textViewPopular.setOnClickListener(v -> switchSort.setChecked(!switchSort.isChecked()));
         textViewTopRated.setOnClickListener(v -> switchSort.setChecked(!switchSort.isChecked()));
         adapter.setOnItemClickListener(position -> {
-            Toast.makeText(MainActivity.this, "Click " + position, Toast.LENGTH_SHORT).show();
+            Movie movie = adapter.getMovies().get(position);
+            Intent intent = DetailsActivity.newInstance(MainActivity.this, movie.getId());
+            startActivity(intent);
         });
         adapter.setOnReachEndListener(() -> {
             Toast.makeText(MainActivity.this, "Конец списка", Toast.LENGTH_SHORT).show();
@@ -77,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
         List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
         if (movies != null && !movies.isEmpty()) {
-            viewModel.deleteAllMovies();
-            for (Movie movie : movies) {
-                viewModel.insertMovie(movie);
-            }
+//            viewModel.deleteAllMovies(); // TODO optimize deleteing & inserting
+//            for (Movie movie : movies) {
+//                viewModel.insertMovie(movie);
+//            }
         }
     }
 
