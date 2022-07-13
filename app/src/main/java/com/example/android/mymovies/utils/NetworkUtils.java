@@ -1,7 +1,13 @@
 package com.example.android.mymovies.utils;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +77,7 @@ public class NetworkUtils {
         return result;
     }
 
-    private static URL buildTrailersUrl(int id) {
+    public static URL buildTrailersUrl(int id) {
         URL result = null;
         Uri uri = Uri.parse(String.format(BASE_VIDEOS_URL, id)).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
@@ -85,7 +91,7 @@ public class NetworkUtils {
         return result;
     }
 
-    private static URL buildReviewsUrl(int id) {
+    public static URL buildReviewsUrl(int id) {
         URL result = null;
         String page = "1";
         Uri uri = Uri.parse(String.format(BASE_REVIEWS_URL, id)).buildUpon()
@@ -100,7 +106,7 @@ public class NetworkUtils {
         return result;
     }
 
-    private static URL buildMovieUrl(int sortBy, int page) {
+    public static URL buildMovieUrl(int sortBy, int page) {
         URL result = null;
         String sortMethod = sortBy == POPULARITY ? SORT_BY_POPULARITY : SORT_BY_TOP_RATED;
         Uri uri = Uri.parse(BASE_URL).buildUpon()
@@ -118,7 +124,58 @@ public class NetworkUtils {
         return result;
     }
 
-    private static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> {
+    public static class JSONLoader extends AsyncTaskLoader<JSONObject> {
+        private Bundle bundle;
+
+        public JSONLoader(@NonNull Context context, Bundle bundle) {
+            super(context);
+            this.bundle = bundle;
+        }
+
+        @Override
+        protected void onStartLoading() {
+            super.onStartLoading();
+            forceLoad();
+        }
+
+        @Nullable
+        @Override
+        public JSONObject loadInBackground() {
+            if (bundle == null) return null;
+            String urlAsString = bundle.getString("url");
+            URL url = null;
+            try {
+                url = new URL(urlAsString);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            JSONObject result = null;
+            if (url == null) return null;
+            HttpURLConnection connection = null;
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        connection.getInputStream()))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line = reader.readLine();
+                    while (line != null) {
+                        sb.append(line);
+                        line = reader.readLine();
+                    }
+                    result = new JSONObject(sb.toString());
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+            return result;
+        }
+    }
+
+    public static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> {
         @Override
         protected JSONObject doInBackground(URL... urls) {
             JSONObject result = null;

@@ -12,11 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,19 +32,25 @@ import com.example.android.mymovies.utils.NetworkUtils;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<JSONObject> {
     private Switch switchSort;
     private TextView textViewPopular, textViewTopRated;
     private RecyclerView recyclerView;
+
     private MovieAdapter adapter;
     private MainViewModel viewModel;
+
+    private static final int LOADER_ID = 133;
+    private LoaderManager loaderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loaderManager = LoaderManager.getInstance(this);
         initViews();
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         adapter = new MovieAdapter();
@@ -112,14 +121,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadData(int methodSort, int page) {
-        JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
-        List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
-        if (!movies.isEmpty()) {
-            viewModel.deleteAllMovies();
-            for (Movie movie : movies) {
-                viewModel.insertMovie(movie);
-            }
-        }
+        URL url = NetworkUtils.buildMovieUrl(methodSort, page);
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url.toString());
+        loaderManager.restartLoader(LOADER_ID, bundle, this);
     }
 
     private void initViews() {
@@ -128,5 +133,29 @@ public class MainActivity extends AppCompatActivity {
         textViewTopRated = findViewById(R.id.tv_top_rated);
         recyclerView = findViewById(R.id.recycler_view_movies);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+    }
+
+    @NonNull
+    @Override
+    public Loader<JSONObject> onCreateLoader(int id, @Nullable Bundle bundle) {
+        NetworkUtils.JSONLoader jsonLoader = new NetworkUtils.JSONLoader(this, bundle);
+        return jsonLoader;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject data) {
+        List<Movie> movies = JSONUtils.getMoviesFromJSON(data);
+        if (!movies.isEmpty()) {
+            viewModel.deleteAllMovies();
+            for (Movie movie : movies) {
+                viewModel.insertMovie(movie);
+            }
+        }
+        loaderManager.destroyLoader(LOADER_ID);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<JSONObject> loader) {
+
     }
 }
