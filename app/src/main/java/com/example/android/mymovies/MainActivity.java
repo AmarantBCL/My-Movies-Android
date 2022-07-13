@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
         List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
         if (!movies.isEmpty()) {
-            viewModel.deleteAllMovies(); // TODO optimize deleteing & inserting
+            viewModel.deleteAllMovies();
             for (Movie movie : movies) {
                 viewModel.insertMovie(movie);
             }

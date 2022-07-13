@@ -13,9 +13,11 @@ import com.example.android.mymovies.data.Movie;
 import com.example.android.mymovies.database.MovieDatabase;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
@@ -61,9 +63,12 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void insertMovie(Movie movie) {
-        new Thread(() -> {
-           database.movieDAO().insertMovie(movie);
-        }).start();
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                database.movieDAO().insertMovie(movie);
+            }
+        }).subscribeOn(Schedulers.io()).subscribe();
     }
 
     public void insertFavoriteMovie(FavoriteMovie movie) {
