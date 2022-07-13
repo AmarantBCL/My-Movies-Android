@@ -31,6 +31,9 @@ public interface MovieDAO {
     @Query("DELETE FROM movies")
     void deleteAllMovies();
 
+    @Query("DELETE FROM favorites")
+    void deleteAllFavoriteMovies();
+
     @Insert
     void insertMovie(Movie movie);
 

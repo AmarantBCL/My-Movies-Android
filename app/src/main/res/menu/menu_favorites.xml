@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_main"
-        android:title="@string/main"/>
+        android:title="@string/main"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/item_favorites"
-        android:title="@string/favorites" />
+        android:title="@string/favorites"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_star"/>
 </menu>

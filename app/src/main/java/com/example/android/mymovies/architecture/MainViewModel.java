@@ -83,6 +83,12 @@ public class MainViewModel extends AndroidViewModel {
         }).start();
     }
 
+    public void deleteAllFavoriteMovies() {
+        new Thread(() -> {
+            database.movieDAO().deleteAllFavoriteMovies();
+        }).start();
+    }
+
     public void deleteMovie(Movie movie) {
         new Thread(() -> {
             database.movieDAO().deleteMovie(movie);
