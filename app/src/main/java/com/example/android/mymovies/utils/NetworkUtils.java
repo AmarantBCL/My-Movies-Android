@@ -88,7 +88,6 @@ public class NetworkUtils {
         String page = "1";
         Uri uri = Uri.parse(String.format(BASE_REVIEWS_URL, id)).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
-                .appendQueryParameter(PARAMS_LANGUAGE, LANGUAGE_VALUE)
                 .appendQueryParameter(PARAMS_PAGE, page)
                 .build();
         try {
