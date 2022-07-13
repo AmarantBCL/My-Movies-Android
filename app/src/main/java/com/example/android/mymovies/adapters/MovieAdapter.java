@@ -1,6 +1,5 @@
 package com.example.android.mymovies.adapters;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
     private OnItemClickListener listener;
     private OnReachEndListener reachEndListener;
 
@@ -30,10 +29,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         void onReachEnd();
     }
 
-    public MovieAdapter() {
-        movies = new ArrayList<>();
-    }
-
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,7 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        if (reachEndListener != null && position > movies.size() - 4) {
+        if (reachEndListener != null && position >= movies.size() - 1) {
             reachEndListener.onReachEnd();
         }
         Movie movie = movies.get(position);
@@ -57,11 +52,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public List<Movie> getMovies() {
         return movies;
-    }
-
-    public void addMovies(List<Movie> movies) {
-        this.movies.addAll(movies);
-        notifyDataSetChanged();
     }
 
     public void setMovies(List<Movie> movies) {

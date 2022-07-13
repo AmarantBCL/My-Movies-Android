@@ -61,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = DetailsActivity.newInstance(MainActivity.this, movie.getId());
             startActivity(intent);
         });
-        adapter.setOnReachEndListener(() -> {
-            Toast.makeText(MainActivity.this, "Конец списка", Toast.LENGTH_SHORT).show();
-        });
+        adapter.setOnReachEndListener(() -> Toast.makeText(MainActivity.this,
+                "Конец списка", Toast.LENGTH_SHORT).show());
         LiveData<List<Movie>> moviesFromLD = viewModel.getMovies();
         moviesFromLD.observe(this, new Observer<List<Movie>>() {
             @Override
@@ -115,12 +114,11 @@ public class MainActivity extends AppCompatActivity {
     private void downloadData(int methodSort, int page) {
         JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
         List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
-        if (movies != null && !movies.isEmpty()) {
-            adapter.setMovies(movies); // TODO only from the internet
-//            viewModel.deleteAllMovies(); // TODO optimize deleteing & inserting
-//            for (Movie movie : movies) {
-//                viewModel.insertMovie(movie);
-//            }
+        if (!movies.isEmpty()) {
+            viewModel.deleteAllMovies(); // TODO optimize deleteing & inserting
+            for (Movie movie : movies) {
+                viewModel.insertMovie(movie);
+            }
         }
     }
 
