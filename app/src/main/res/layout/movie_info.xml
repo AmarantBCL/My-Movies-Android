@@ -34,6 +34,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginHorizontal="@dimen/half_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_original"/>
+
     <TextView
         android:id="@+id/tv_original_label"
         android:layout_width="wrap_content"
@@ -55,6 +65,16 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="TextView" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginHorizontal="@dimen/half_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_original"
+        app:layout_constraintBottom_toTopOf="@id/tv_rating"/>
 
     <TextView
         android:id="@+id/tv_rating_label"
@@ -99,6 +119,16 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_rating"
         tools:text="TextView" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginHorizontal="@dimen/half_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_release"
+        app:layout_constraintBottom_toTopOf="@id/tv_desc_label"/>
 
     <TextView
         android:id="@+id/tv_desc_label"

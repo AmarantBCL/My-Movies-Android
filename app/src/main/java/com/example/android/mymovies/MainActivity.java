@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<JSONObject> {
     private Switch switchSort;
@@ -53,11 +54,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static int page = 1;
     private static int methodSort;
     private static boolean isLoading = false;
+    private static String lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lang = Locale.getDefault().getLanguage();
         loaderManager = LoaderManager.getInstance(this);
         initViews();
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void downloadData(int methodOfSort, int page) {
-        URL url = NetworkUtils.buildMovieUrl(methodOfSort, page);
+        URL url = NetworkUtils.buildMovieUrl(methodOfSort, page, lang);
         Bundle bundle = new Bundle();
         bundle.putString("url", url.toString());
         loaderManager.restartLoader(LOADER_ID, bundle, this);

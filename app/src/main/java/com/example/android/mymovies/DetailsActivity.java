@@ -46,10 +46,13 @@ public class DetailsActivity extends AppCompatActivity {
     private Movie movie;
     private FavoriteMovie favoriteMovie;
 
+    private static String lang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        lang = Locale.getDefault().getLanguage();
         initViews();
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("id")) {
@@ -97,8 +100,8 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void getTrailersAndReviews() {
-        JSONObject jsonVideos = NetworkUtils.getJSONForVideos(id);
-        JSONObject jsonReviews = NetworkUtils.getJSONForReviews(id);
+        JSONObject jsonVideos = NetworkUtils.getJSONForVideos(id, lang);
+        JSONObject jsonReviews = NetworkUtils.getJSONForReviews(id, lang);
         List<Trailer> trailers = JSONUtils.getTrailersFromJSON(jsonVideos);
         List<Review> reviews = JSONUtils.getReviewsFromJSON(jsonReviews);
         trailerAdapter.setTrailers(trailers);
