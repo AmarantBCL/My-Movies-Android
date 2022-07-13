@@ -21,9 +21,9 @@
         android:id="@+id/img_star"
         android:layout_width="@dimen/portrait_star_size"
         android:layout_height="@dimen/portrait_star_size"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@null"
+        android:layout_marginEnd="@dimen/basic_margin"
+        android:layout_marginTop="@dimen/basic_margin"
+        android:contentDescription="@string/favs"
         app:layout_constraintEnd_toEndOf="@id/img_logo"
         app:layout_constraintTop_toTopOf="@+id/img_logo"
         app:srcCompat="@drawable/fav_gray" />
