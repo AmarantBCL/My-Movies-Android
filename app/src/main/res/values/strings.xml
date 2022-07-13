@@ -15,4 +15,5 @@
     <string name="launch_trailer">Launch trailer</string>
     <string name="movie_logo">Movie logo</string>
     <string name="favs">Favorites</string>
+    <string name="trailers_label">Трейлеры:</string>
 </resources>
