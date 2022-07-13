@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.mymovies.adapters.MovieAdapter;
 import com.example.android.mymovies.architecture.MainViewModel;
 import com.example.android.mymovies.data.Movie;
+import com.example.android.mymovies.data.Trailer;
 import com.example.android.mymovies.utils.JSONUtils;
 import com.example.android.mymovies.utils.NetworkUtils;
 
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(methodSort, page);
         List<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
         if (movies != null && !movies.isEmpty()) {
+            adapter.setMovies(movies); // TODO only from the internet
 //            viewModel.deleteAllMovies(); // TODO optimize deleteing & inserting
 //            for (Movie movie : movies) {
 //                viewModel.insertMovie(movie);
