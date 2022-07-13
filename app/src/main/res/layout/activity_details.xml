@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/img_logo"
             android:layout_width="0dp"
+            android:contentDescription="@string/movie_logo"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,19 +151,21 @@
             android:id="@+id/recycler_view_videos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="8dp"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_desc"
-            android:layout_margin="8dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_reviews"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="8dp"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view_videos"
-            android:layout_margin="8dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_videos" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

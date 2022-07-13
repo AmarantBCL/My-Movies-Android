@@ -13,4 +13,5 @@
     <string name="favorites">Избранное</string>
     <string name="main">Главная</string>
     <string name="launch_trailer">Запустить трейлер</string>
+    <string name="movie_logo">Логотип фильма</string>
 </resources>
