@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,7 +50,7 @@ public class NetworkUtils {
         try {
             result = new JSONLoadTask().execute(url).get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -60,7 +61,7 @@ public class NetworkUtils {
         try {
             result = new JSONLoadTask().execute(url).get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -71,7 +72,7 @@ public class NetworkUtils {
         try {
             result = new JSONLoadTask().execute(url).get();
         } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -85,7 +86,7 @@ public class NetworkUtils {
         try {
             result = new URL(uri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -101,7 +102,7 @@ public class NetworkUtils {
         try {
             result = new URL(uri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -119,7 +120,7 @@ public class NetworkUtils {
         try {
             result = new URL(uri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -159,7 +160,7 @@ public class NetworkUtils {
             try {
                 url = new URL(urlAsString);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                Log.d("Error", "Loading failed.");
             }
             JSONObject result = null;
             if (url == null) return null;
@@ -177,7 +178,7 @@ public class NetworkUtils {
                     result = new JSONObject(sb.toString());
                 }
             } catch (IOException | JSONException e) {
-                e.printStackTrace();
+                Log.d("Error", "Loading failed.");
             } finally {
                 if (connection != null) {
                     connection.disconnect();
@@ -206,7 +207,7 @@ public class NetworkUtils {
                     result = new JSONObject(sb.toString());
                 }
             } catch (IOException | JSONException e) {
-                e.printStackTrace();
+                Log.d("Error", "Loading failed.");
             } finally {
                 if (connection != null) {
                     connection.disconnect();

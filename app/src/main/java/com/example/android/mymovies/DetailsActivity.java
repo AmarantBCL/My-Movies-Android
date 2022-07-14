@@ -146,7 +146,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void loadMovieInfo() {
         movie = viewModel.getMovieById(id);
-        Picasso.get().load(movie.getBigPosterPath()).into(imageViewLogo);
+        Picasso.get().load(movie.getBigPosterPath()).placeholder(R.drawable.ic_placeholder).into(imageViewLogo);
         textViewTitle.setText(movie.getTitle());
         textViewOriginal.setText(movie.getOriginalTitle());
         textViewRelease.setText(movie.getReleaseDate());

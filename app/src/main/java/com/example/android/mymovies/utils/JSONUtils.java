@@ -1,5 +1,7 @@
 package com.example.android.mymovies.utils;
 
+import android.util.Log;
+
 import com.example.android.mymovies.data.Movie;
 import com.example.android.mymovies.data.Review;
 import com.example.android.mymovies.data.Trailer;
@@ -41,6 +43,7 @@ public class JSONUtils {
 
     public static List<Trailer> getTrailersFromJSON(JSONObject jsonObject) {
         List<Trailer> result = new ArrayList<>();
+        if (jsonObject == null) return result;
         try {
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_RESULTS);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -50,13 +53,14 @@ public class JSONUtils {
                 result.add(new Trailer(name, key));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
 
     public static List<Review> getReviewsFromJSON(JSONObject jsonObject) {
         List<Review> result = new ArrayList<>();
+        if (jsonObject == null) return result;
         try {
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_RESULTS);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -66,7 +70,7 @@ public class JSONUtils {
                 result.add(new Review(author, content));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
@@ -93,7 +97,7 @@ public class JSONUtils {
                 result.add(movie);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("Error", "Loading failed.");
         }
         return result;
     }
